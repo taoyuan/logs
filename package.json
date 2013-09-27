@@ -13,19 +13,21 @@
   "dependencies": {
     "lodash": "latest",
     "stack-trace": "latest",
-    "debug2": "latest"
+    "debug2": "latest",
+    "inflection": "~1.2.6"
   },
   "devDependencies": {
-    "logule": "~2.0.0",
-    "caterpillar": "~2.0.3",
-    "log4js": "~0.6.5",
-    "winston": "~0.7.1",
-    "tracer": "~0.5.1",
-    "mocha": "~1.10.0",
-    "should": "~1.2.2",
-    "caterpillar-filter": "~2.0.1",
-    "caterpillar-human": "~2.1.0",
-    "debug": "~0.7.2"
+    "logule": "latest",
+    "caterpillar": "latest",
+    "log4js": "latest",
+    "winston": "latest",
+    "tracer": "latest",
+    "mocha": "latest",
+    "should": "latest",
+    "caterpillar-filter": "latest",
+    "caterpillar-human": "latest",
+    "debug": "latest",
+    "log": "~1.4.0"
   },
   "keywords": [
     "logs",
