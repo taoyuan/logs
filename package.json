@@ -17,13 +17,13 @@
     "inflection": "~1.2.6"
   },
   "devDependencies": {
+    "mocha": "latest",
+    "chai": "latest",
     "logule": "latest",
     "caterpillar": "latest",
     "log4js": "latest",
     "winston": "latest",
     "tracer": "latest",
-    "mocha": "latest",
-    "should": "latest",
     "caterpillar-filter": "latest",
     "caterpillar-human": "latest",
     "debug": "latest",
