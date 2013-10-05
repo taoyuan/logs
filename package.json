@@ -1,10 +1,10 @@
 {
   "name": "logs",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "a simple logger facade for node.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node_modules/mocha/bin/mocha test/*.test.js"
   },
   "repository": {
     "type": "git",
@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "lodash": "latest",
-    "stack-trace": "latest",
+    "stack-trace": "0.0.7",
     "debug2": "latest",
     "inflection": "~1.2.6"
   },
@@ -20,10 +20,10 @@
     "mocha": "latest",
     "chai": "latest",
     "logule": "latest",
-    "caterpillar": "latest",
     "log4js": "latest",
     "winston": "latest",
     "tracer": "latest",
+    "caterpillar": "latest",
     "caterpillar-filter": "latest",
     "caterpillar-human": "latest",
     "debug": "latest",
