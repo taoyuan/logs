@@ -27,7 +27,7 @@
     "log4js": "^0.6.26",
     "logule": "^2.0.1",
     "mocha": "^2.2.5",
-    "tracer": "^0.7.4",
+    "tracer": "^0.8.0",
     "winston": "^1.0.1"
   },
   "keywords": [
