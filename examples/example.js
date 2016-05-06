@@ -11,7 +11,7 @@ function log(vendor, msg) {
   console.log(vendor);
   console.log('-----------------------------------------');
 
-  logs.use(vendor);
+  logs.use(vendor, {level: 'info'});
   var logger = logs.get('Foo');
   ['trace', 'debug', 'info', 'warn', 'error'].forEach(function (level) {
     logger[level]('{%s} %s', vendor, msg);
