@@ -1,35 +1,22 @@
 var logs = require('../');
-var logger;
 
 // debug and debug2 need set env DEBUG to Foo
+var msg = 'Hello World';
 
-logger = logs.get('Foo');
-logger.info('1. (console) %s %j', 'hello world', {from: 'taoyuan'});
+['debug', 'log4js', 'winston', 'logule', 'tracer', 'caterpillar'].forEach(function (vendor) {
+  log(vendor, msg);
+});
 
-logs.use('debug');
-logger = logs.get('Foo');
-logger.info('2. (debug) %s', 'hello world');
+function log(vendor, msg) {
+  console.log(vendor);
+  console.log('-----------------------------------------');
 
-logs.use('debug2');
-logger = logs.get('Foo');
-logger.info('3. (debug2) %s', 'hello world');
+  logs.use(vendor);
+  var logger = logs.get('Foo');
+  ['trace', 'debug', 'info', 'warn', 'error'].forEach(function (level) {
+    logger[level]('{%s} %s', vendor, msg);
+  });
 
-logs.use('log4js');
-logger = logs.get('Foo');
-logger.info('4. (log4js) %s', 'hello world');
+  console.log('-----------------------------------------');
+}
 
-logs.use('winston');
-logger = logs.get('Foo');
-logger.info('5. (winston) %s', 'hello world');
-
-logs.use('logule');
-logger = logs.get('Foo');
-logger.info('6. (logule) %s', 'hello world');
-
-logs.use('tracer');
-logger = logs.get('Foo');
-logger.info('7. (tracer) %s', 'hello world');
-
-logs.use('caterpillar');
-logger = logs.get('Foo');
-logger.info('8. (caterpillar) %s', 'hello world');
