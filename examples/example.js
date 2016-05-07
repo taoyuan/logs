@@ -16,6 +16,7 @@ function log(vendor, msg) {
   ['trace', 'debug', 'info', 'warn', 'error'].forEach(function (level) {
     if (logger.isLevelEnabled(level)) {
       logger[level]('[%s] %s %j', vendor, msg, {message: 'hello'});
+      logger[level]('Simple Messge');
     }
   });
 
