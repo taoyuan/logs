@@ -1,6 +1,6 @@
 {
   "name": "logs",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A simple logger facade for node.",
   "main": "index.js",
   "scripts": {
