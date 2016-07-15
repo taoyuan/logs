@@ -11,7 +11,9 @@ function log(vendor, msg) {
   console.log(vendor);
   console.log('-----------------------------------------');
 
-  logs.use(vendor, {level: 'trace'});
+  // logs.use(vendor, {level: 'trace'});
+  logs.use(vendor);
+  logs.setLevel('trace');
   var logger = logs.get('Foo');
   ['trace', 'debug', 'info', 'warn', 'error'].forEach(function (level) {
     if (logger.isLevelEnabled(level)) {
