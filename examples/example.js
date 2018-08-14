@@ -3,7 +3,8 @@ var logs = require('../');
 // debug and debug2 need set env DEBUG to Foo
 var msg = 'Hello World';
 
-['debug', 'log4js', 'winston', 'logule', 'tracer', 'caterpillar'].forEach(function (vendor) {
+// ['debug', 'log4js', 'winston', 'logule', 'tracer', 'caterpillar'].forEach(function (vendor) {
+['winston'].forEach(function (vendor) {
   log(vendor, msg);
 });
 
