@@ -5,13 +5,13 @@ export interface Logger {
 
   extend(name: string, color?: string): Logger;
 
-  log(level, ...args);
-  trace(...args);
-  debug(...args);
-  info(...args);
-  warn(...args);
-  error(...args);
-  fatal(...args);
+  log(level: string, ...args: any[]);
+  trace(...args: any[]);
+  debug(...args: any[]);
+  info(...args: any[]);
+  warn(...args: any[]);
+  error(...args: any[]);
+  fatal(...args: any[]);
 
   isLevelEnabled(level: string): boolean;
   isTraceEnabled();
