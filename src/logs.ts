@@ -1,6 +1,7 @@
 import fs = require('fs');
 import chalk = require('chalk');
 import {Logger} from "./logger";
+import {AdaptableLogger} from "./adaptable";
 
 const LOGS_TAG = '__logs_library__';
 
@@ -77,7 +78,7 @@ export class Library {
 
     categoryToUse.push(chalk[colorsToUse.shift() || 'white'](name));
 
-    return new Logger(this.provider.getLogger((categoryToUse.join(' ')), options), (name: string, color?: string) => {
+    return new AdaptableLogger(this.provider.getLogger((categoryToUse.join(' ')), options), (name: string, color?: string) => {
       return this.get(name, color, categoryToUse, colorsToUse, options);
     });
   };
