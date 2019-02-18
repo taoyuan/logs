@@ -1,14 +1,10 @@
-"use strict";
-
-var _ = require('lodash');
-
-var defaultConfig = {
+const defaultConfig = {
   appenders: {console: {type: "console"}},
   categories: { default: { appenders: ['console'], level: 'warn' } }
 };
 
-exports.initialize = function (library, settings) {
-  var factory = settings && settings.factory;
+export function initialize(library, settings) {
+  let factory = settings && settings.factory;
   if (!factory) {
     settings = Object.assign({}, defaultConfig, settings);
     factory = require('log4js');
@@ -31,11 +27,11 @@ exports.initialize = function (library, settings) {
 
     middleware: function (opts) {
       opts = opts || {};
-      var category = opts.category || 'middleware',
+      const category = opts.category || 'middleware',
         level = opts.level || factory.levels.INFO;
       return factory.connectLogger(factory.getLogger(category), {
         level: level
       });
     }
   }
-};
+}

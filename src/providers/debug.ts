@@ -1,14 +1,12 @@
-"use strict";
-
-exports.initialize = function (library) {
-  var debug = require('debug');
+export function initialize (library) {
+  const debug = require('debug');
 
   library.provider = {
     getLogger: function (category) {
       return new DebugLogger(debug(category));
     }
   }
-};
+}
 
 function DebugLogger(debug) {
   this.debug = debug;

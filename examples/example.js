@@ -1,28 +1,42 @@
-var logs = require('../');
+const logs = require('..');
 
+
+const vendors = ['log4js', 'winston', 'logule', 'tracer', 'console'];
 // debug and debug2 need set env DEBUG to Foo
-var msg = 'Hello World';
+const msg = 'Hello World';
 
-// ['debug', 'log4js', 'winston', 'logule', 'tracer', 'caterpillar'].forEach(function (vendor) {
-['winston'].forEach(function (vendor) {
-  log(vendor, msg);
-});
+(async () => {
+  for (const vendor of vendors) {
+    await log(vendor, msg);
+  }
+})();
 
-function log(vendor, msg) {
+async function log(vendor, msg) {
+  console.log('-----------------------------------------');
   console.log(vendor);
   console.log('-----------------------------------------');
 
   // logs.use(vendor, {level: 'trace'});
   logs.use(vendor);
   logs.setLevel('trace');
-  var logger = logs.get('Foo').extend('Bar');
-  ['trace', 'debug', 'info', 'warn', 'error'].forEach(function (level) {
-    if (logger.isLevelEnabled(level)) {
-      logger[level]('[%s] %s %j', vendor, msg, {message: 'hello'});
-      logger[level]('Simple Message');
-    }
-  });
+  const logger = logs.get('Foo').extend('Bar');
 
-  console.log('-----------------------------------------');
+  ['trace', 'debug', 'info', 'warn'].forEach(level => _log(logger, vendor, level, msg));
+
+  await _log(logger, vendor, 'error', msg);
+
+  // wait for all flushed
+  await delay(100);
 }
 
+async function _log(logger, vendor, level, msg) {
+  if (logger.isLevelEnabled(level)) {
+    logger[level]('[%s] %s %j', vendor, msg, {data: 'this is data'});
+    logger[level]('Simple Message');
+  }
+  await delay(100);
+}
+
+async function delay(ms) {
+  return new Promise((resolve) => setTimeout(() => resolve(), ms));
+}

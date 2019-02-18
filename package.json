@@ -2,33 +2,52 @@
   "name": "logs",
   "version": "1.2.2",
   "description": "A simple logger facade for node.",
-  "main": "index.js",
+  "files": [
+    "lib"
+  ],
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
   "scripts": {
-    "test": "node_modules/mocha/bin/mocha test/*.test.js"
+    "clean": "rimraf lib",
+    "format": "prettier --write \"{src,test}/**/*.ts\" --single-quote --trailing-comma es5",
+    "prepublishOnly": "npm run build",
+    "prebuild": "npm run clean && echo Using TypeScript && tsc --version",
+    "build": "tsc --pretty",
+    "test": "npm run build && nyc mocha --require ts-node/register --recursive \"test/**/*.test.ts\""
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/taoyuan/node-logs.git"
   },
   "dependencies": {
-    "chalk": "^2.4.1",
+    "chalk": "^2.4.2",
     "dateformat": "^3.0.3",
-    "inflection": "^1.12.0",
-    "lodash": "^4.17.10",
-    "stack-trace": "0.0.10"
+    "lodash": "^4.17.11",
+    "pad": "^2.2.2"
   },
   "devDependencies": {
-    "caterpillar": "^3.0.1",
-    "caterpillar-filter": "^3.0.0",
+    "@types/chai": "^4.1.7",
+    "@types/chalk": "^2.2.0",
+    "@types/lodash": "^4.14.121",
+    "@types/mocha": "^5.2.6",
+    "@types/node": "^11.9.4",
+    "@types/pad": "^1.0.2",
+    "caterpillar": "^3.2.0",
+    "caterpillar-filter": "^3.1.0",
     "caterpillar-human": "^3.0.0",
-    "chai": "^4.1.2",
-    "debug": "^3.1.0",
-    "log": "^1.4.0",
-    "log4js": "^3.0.5",
+    "chai": "^4.2.0",
+    "debug": "^4.1.1",
+    "log": "^3.2.0",
+    "log4js": "^4.0.2",
     "logule": "^2.1.0",
     "mocha": "^5.2.0",
-    "tracer": "^0.9.1",
-    "winston": "^3.0.0"
+    "nyc": "^13.3.0",
+    "prettier": "^1.16.4",
+    "rimraf": "^2.6.3",
+    "tracer": "^0.9.8",
+    "ts-node": "latest",
+    "typescript": "latest",
+    "winston": "^3.2.1"
   },
   "keywords": [
     "logs",

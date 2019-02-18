@@ -1,8 +1,8 @@
 "use strict";
 
-exports.initialize = function (library, settings) {
+export function initialize(library, settings) {
 
-  var logule = require('logule');
+  const logule = require('logule');
 
   library.provider = {
 
@@ -15,7 +15,7 @@ exports.initialize = function (library, settings) {
 
     middleware: function (opts) {
       opts = opts || {};
-      var category = opts.category || 'middleware',
+      const category = opts.category || 'middleware',
         level = opts.level || logule.levels.INFO,
         log = logule.init(module, '<-').get(level, category);
       return function (req, res, next) {
@@ -24,4 +24,4 @@ exports.initialize = function (library, settings) {
       };
     }
   }
-};
+}
