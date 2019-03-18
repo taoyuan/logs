@@ -1,7 +1,8 @@
 const logs = require('..');
 
-
+const level = "info";
 const vendors = ['log4js', 'winston', 'logule', 'tracer', 'console'];
+// const vendors = ['winston'];
 // debug and debug2 need set env DEBUG to Foo
 const msg = 'Hello World';
 
@@ -18,8 +19,9 @@ async function log(vendor, msg) {
 
   // logs.use(vendor, {level: 'trace'});
   logs.use(vendor);
-  logs.setLevel('trace');
-  const logger = logs.get('Foo').extend('Bar');
+
+  logs.setLevel(level);
+  const logger = logs.get('Foo', {level}).extend('Bar');
 
   ['trace', 'debug', 'info', 'warn'].forEach(level => _log(logger, vendor, level, msg));
 

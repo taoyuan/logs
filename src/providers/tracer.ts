@@ -10,6 +10,9 @@ export function initialize(library, settings) {
   }, settings);
 
   library.provider = {
+    setLevel: function (level) {
+      tracer.setLevel(level);
+    },
     getLogger: function () {
       return tracer[settings.appender](settings.options);
     }

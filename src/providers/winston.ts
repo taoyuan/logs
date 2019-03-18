@@ -45,12 +45,12 @@ export function initialize(library, settings) {
 
   library.provider = {
     setLevel: function (level) {
-      doSerLevel(factory, level);
+      doSetLevel(factory, level);
 
-      function doSerLevel(logger, level) {
+      function doSetLevel(logger, level) {
         logger.level = level;
         if (logger.loggers && logger.loggers.loggers) {
-          _.forEach(logger.loggers.loggers, logger => doSerLevel(logger, level));
+          _.forEach(logger.loggers.loggers, logger => doSetLevel(logger, level));
         }
       }
     },
