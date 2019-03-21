@@ -5,13 +5,14 @@ import df = require('dateformat');
 import pad = require('pad');
 
 const levels = {
-  error: 0,
-  warn: 1,
-  help: 2,
-  data: 3,
-  info: 4,
-  debug: 5,
-  trace: 6
+  fatal: 0,
+  error: 1,
+  warn: 2,
+  help: 3,
+  data: 4,
+  info: 5,
+  debug: 6,
+  trace: 7
 };
 
 export function initialize(library, settings) {
@@ -27,7 +28,7 @@ export function initialize(library, settings) {
       format: factory.format.combine(
         factory.format.splat(),
         factory.format.simple(),
-        factory.format.colorize({colors: {trace: 'magenta'}}),
+        factory.format.colorize({colors: {trace: 'magenta', fatal: 'red'}}),
         factory.format.timestamp(),
         factory.format.printf(info => {
           const level = pad(`<${info.level}>`, 15);
