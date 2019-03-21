@@ -1,11 +1,10 @@
 "use strict";
 
-var logs = require('../');
-var logger;
+const logs = require('../');
 
 setTimeout(function () {
   console.log(Date.now());
 }, 1000);
 
-logger = logs.get('Foo');
+const logger = logs.get('Foo');
 logger.fatal('fatal error, should exit(1)');

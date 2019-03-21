@@ -26,11 +26,14 @@ export class AdaptableLogger implements Logger {
     throw new Error('`extender` is not provider')
   }
 
-  log(level, ...args) {
+  log(level: string, ...args) {
     if (typeof this.adapter[level] === "function") {
-      return this.adapter[level](...args);
+      this.adapter[level](...args);
     } else {
-      return this.adapter.log(level, ...args);
+      this.adapter.log(level, ...args);
+    }
+    if (level === 'fatal') {
+      process.exit(1);
     }
   };
 
