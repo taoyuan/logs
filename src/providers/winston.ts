@@ -3,6 +3,7 @@
 import _ = require('lodash');
 import df = require('dateformat');
 import pad = require('pad');
+import {Library} from "../logs";
 
 const levels = {
   fatal: 0,
@@ -15,7 +16,7 @@ const levels = {
   trace: 7
 };
 
-export function initialize(library, settings) {
+export function initialize(library: Library, settings) {
   settings = settings || {};
   const factory = (settings && settings.factory) || require('winston');
 

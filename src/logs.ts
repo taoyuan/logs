@@ -11,18 +11,23 @@ export interface LoggerOptions {
   [name: string]: any;
 }
 
+export interface Provider {
+  getLogger: (category: string, options) => any;
+  setLevel?: (level: string) => void;
+  middleware?: (opts) => (req, res, next) => void;
+}
+
 export class Library {
   name: string;
-  provider;
+  provider: Provider;
 
   constructor(name: string, settings?: { [name: string]: any }) {
     this.name = name;
-    this.provider = {};
 
     // and initialize loggers using provider
     // this is only one initialization entry point of provider
     // this module should define `provider` member of `this` (loggers)
-    var provider;
+    let provider;
     if (typeof name === 'object') {
       provider = name;
       this.name = provider.name;
