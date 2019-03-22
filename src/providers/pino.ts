@@ -1,6 +1,7 @@
 import _ = require("lodash");
 import { Library, LoggingOptions } from "../logs";
 import { Logger, LoggerOptions } from "pino";
+import * as assert from "assert";
 
 export function initialize(library: Library, settings: LoggerOptions) {
 
@@ -17,18 +18,19 @@ export function initialize(library: Library, settings: LoggerOptions) {
 
   }
 
-  settings = _.cloneDeep(_.defaults(defaults, settings));
+  settings = _.cloneDeep(_.merge(defaults, settings));
   settings.level = settings.level || "info";
 
   library.provider = {
     setLevel: function(level) {
+      assert(level, "level can not be empty");
       settings.level = level;
     },
     getLogger: function(name: string, options: LoggingOptions) {
       if (options.parent) {
         return (<Logger>options.parent).child({ name, level: settings.level });
       }
-      return pino({ ...settings, name, ...options });
+      return pino(_.defaults({ ...settings }, { name, ...options }));
     }
   };
 }
