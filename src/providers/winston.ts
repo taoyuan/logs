@@ -4,6 +4,7 @@ import _ = require('lodash');
 import df = require('dateformat');
 import pad = require('pad');
 import {Library} from "../logs";
+import { format } from "winston";
 
 const levels = {
   fatal: 0,
@@ -23,18 +24,24 @@ export function initialize(library: Library, settings) {
   const level = settings.level;
   factory.level = level;
 
+  const padlevel = format((info, opts) => {
+    info.level =  pad(_.upperCase(info.level), 5);
+    return info;
+  });
+
   let transports = settings.transports || [
     new factory.transports.Console({
       colorize: true,
       format: factory.format.combine(
         factory.format.splat(),
         factory.format.simple(),
+        padlevel(),
         factory.format.colorize({colors: {trace: 'magenta', fatal: 'red'}}),
         factory.format.timestamp(),
         factory.format.printf(info => {
-          const level = pad(`<${info.level}>`, 15);
-          return `${df(info.timestamp, 'yyyy-mm-dd HH:MM:ss')} ${level} ${info.message}`;
-        })
+          return `${df(info.timestamp, 'yyyy-mm-dd HH:MM:ss')} ${info.level} ${info.message}`;
+        }),
+
       ),
     })
   ];
@@ -57,15 +64,15 @@ export function initialize(library: Library, settings) {
       }
     },
 
-    getLogger: function (category, options) {
+    getLogger: function (name, options) {
       options = options || {};
-      if (category) {
-        if (factory.loggers.has(category)) {
-          return factory.loggers.get(category);
+      if (name) {
+        if (factory.loggers.has(name)) {
+          return factory.loggers.get(name);
         }
 
-        const l = factory.loggers.add(category, {
-          console: {label: category},
+        const l = factory.loggers.add(name, {
+          console: {label: name},
           levels,
           transports,
         });

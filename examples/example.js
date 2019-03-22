@@ -1,7 +1,7 @@
 const logs = require('..');
 
-const level = "info";
-const vendors = ['log4js', 'winston', 'logule', 'tracer', 'console'];
+const level = "debug";
+const vendors = ['pino', 'log4js', 'winston', 'logule', 'tracer', 'console'];
 // const vendors = ['winston'];
 // debug and debug2 need set env DEBUG to Foo
 const msg = 'Hello World';

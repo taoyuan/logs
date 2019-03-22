@@ -1,5 +1,4 @@
 import fs = require('fs');
-import chalk = require('chalk');
 import {Logger} from "./logger";
 import {AdaptableLogger} from "./adaptable";
 
@@ -7,12 +6,13 @@ const LOGS_TAG = '__logs_library__';
 
 export const version = require('../package').version;
 
-export interface LoggerOptions {
+export interface LoggingOptions {
+  parent?: any;
   [name: string]: any;
 }
 
 export interface Provider {
-  getLogger: (category: string, options) => any;
+  getLogger: (name: string, options) => any;
   setLevel?: (level: string) => void;
   middleware?: (opts) => (req, res, next) => void;
 }
@@ -57,34 +57,26 @@ export class Library {
   };
 
 
-  get(name: string, options?: LoggerOptions): Logger;
-  get(name: string, color: string, options?: LoggerOptions): Logger;
-  get(name: string, color?: string, category?: string[], colors?: string[], options?: LoggerOptions): Logger;
-  get(name: string, color?: string | LoggerOptions, category?: string[] | LoggerOptions, colors?: string[] | LoggerOptions, options?: LoggerOptions): Logger {
+  get(name: string, options?: LoggingOptions): Logger;
+  get(name: string, color: string, options?: LoggingOptions): Logger;
+  get(name: string, color?: string, categories?: string[], options?: LoggingOptions): Logger;
+  get(name: string, color?: string | LoggingOptions, categories?: string[] | LoggingOptions, options?: LoggingOptions): Logger {
     name = name || '[NONAME]';
 
     if (color && typeof color === 'object') {
       options = color;
-      color = undefined;
-    } else if (category && typeof category === 'object') {
-      options = category;
-      category = undefined;
-    } else if (colors && typeof colors === 'object') {
-      options = colors;
-      colors = undefined;
+    } else if (categories && typeof categories === 'object') {
+      options = categories;
+      categories = undefined;
     }
 
-    const colorsToUse = colors ? colors.slice() : ['cyan', 'magenta', 'green', 'grey'];
-    const categoryToUse = category ? category.slice() : [];
+    categories = categories ? categories.slice() : [];
+    options = options || {};
 
-    if (color) {
-      colorsToUse.unshift(color);
-    }
+    const nativeLogger = this.provider.getLogger(name, options);
 
-    categoryToUse.push(chalk[colorsToUse.shift() || 'white'](name));
-
-    return new AdaptableLogger(this.provider.getLogger((categoryToUse.join(' ')), options), (name: string, color?: string) => {
-      return this.get(name, color, categoryToUse, colorsToUse, options);
+    return new AdaptableLogger(nativeLogger, (name: string, color?: string) => {
+      return this.get(name, color, <string[]>categories, {...options, parent: nativeLogger});
     });
   };
 
@@ -110,10 +102,10 @@ export function setLevel(level) {
   return global[LOGS_TAG] && global[LOGS_TAG].setLevel(level);
 }
 
-export function get(name: string, options?: LoggerOptions): Logger;
-export function get(name: string, color: string, options?: LoggerOptions): Logger;
-export function get(name: string, color: string, category?: string[], colors?: string[], options?: LoggerOptions): Logger;
-export function get(name: string, color?: string | LoggerOptions, category?: string[] | LoggerOptions, colors?: string[] | LoggerOptions, options?: LoggerOptions): Logger {
+export function get(name: string, options?: LoggingOptions): Logger;
+export function get(name: string, color: string, options?: LoggingOptions): Logger;
+export function get(name: string, color: string, category?: string[], colors?: string[], options?: LoggingOptions): Logger;
+export function get(name: string, color?: string | LoggingOptions, category?: string[] | LoggingOptions, colors?: string[] | LoggingOptions, options?: LoggingOptions): Logger {
   if (!(LOGS_TAG in global)) {
     console.warn('[logs] NO LOG BRIDGE DEFINED. USING DEFAULT "CONSOLE" BRIDGE.');
     use('console');
