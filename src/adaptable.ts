@@ -2,35 +2,40 @@ import _ = require('lodash');
 import {Logger, LoggerExtender} from "./logger";
 
 export class AdaptableLogger implements Logger {
-  protected adapter: any;
-  protected extender?: LoggerExtender;
+  protected _native: any;
+  protected _extender?: LoggerExtender;
 
-  constructor(adapter, extender?: LoggerExtender) {
-    this.adapter = adapter;
-    this.extender = extender;
+  constructor(native, extender?: LoggerExtender) {
+    this._native = native;
+    this._extender = extender;
   }
+
+  get native() {
+    return this._native;
+  }
+
 
   // TODO This is for winston. Should find a better way to set level for other providers.
   get level() {
-    return this.adapter.level;
+    return this._native.level;
   }
 
   set level(level: string) {
-    this.adapter.level = level;
+    this._native.level = level;
   }
 
   extend(name: string, color?: string): Logger {
-    if (this.extender) {
-      return this.extender(name, color);
+    if (this._extender) {
+      return this._extender(name, color);
     }
     throw new Error('`extender` is not provider')
   }
 
   log(level: string, ...args) {
-    if (typeof this.adapter[level] === "function") {
-      this.adapter[level](...args);
+    if (typeof this._native[level] === "function") {
+      this._native[level](...args);
     } else {
-      this.adapter.log(level, ...args);
+      this._native.log(level, ...args);
     }
     if (level === 'fatal') {
       process.exit(1);
@@ -62,14 +67,14 @@ export class AdaptableLogger implements Logger {
   }
 
   isLevelEnabled(level) {
-    const adapter = this.adapter;
+    const native = this._native;
     const method = 'is' + _.capitalize(level) + 'Enabled';
-    if (typeof adapter[method] === "function") {
-      return adapter[method]();
-    } else if (adapter.isLevelEnabled) {
-      return adapter.isLevelEnabled(level);
-    } else if (adapter.levels) {
-      return adapter.levels[adapter.level || 'debug'] >= adapter.levels[level];
+    if (typeof native[method] === "function") {
+      return native[method]();
+    } else if (native.isLevelEnabled) {
+      return native.isLevelEnabled(level);
+    } else if (native.levels) {
+      return native.levels[native.level || 'debug'] >= native.levels[level];
     } else {
       // console.warn('`isLevelEnabled` is not supported. Return true as default');
       return true;
