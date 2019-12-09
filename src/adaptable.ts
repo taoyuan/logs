@@ -2,7 +2,7 @@ import _ = require('lodash');
 import {Logger, LoggerExtender} from "./logger";
 
 export class AdaptableLogger implements Logger {
-  protected adapter;
+  protected adapter: any;
   protected extender?: LoggerExtender;
 
   constructor(adapter, extender?: LoggerExtender) {
