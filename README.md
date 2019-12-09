@@ -1,4 +1,7 @@
 # logs
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/taoyuan/logs.svg)](https://greenkeeper.io/)
+
 > A simple logger facade for node.
 
 ## Installation
