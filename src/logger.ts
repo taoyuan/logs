@@ -1,8 +1,8 @@
 export type LoggerExtender = (name: string, color?: string) => Logger;
 
 export interface Logger {
-  native: any;
   level: string;
+  readonly native: any;
 
   extend(name: string, color?: string): Logger;
 
