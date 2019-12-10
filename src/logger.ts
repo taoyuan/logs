@@ -1,6 +1,7 @@
 export type LoggerExtender = (name: string, color?: string) => Logger;
 
 export interface Logger {
+  native: any;
   level: string;
 
   extend(name: string, color?: string): Logger;
