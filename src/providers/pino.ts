@@ -30,7 +30,7 @@ export function initialize(library: Library, settings: LoggerOptions) {
       if (options.parent) {
         return (<Logger>options.parent).child({ name, level: settings.level });
       }
-      return pino(_.defaults({ ...settings }, { name, ...options }));
+      return pino({ ...settings, name, ...options });
     }
   };
 }
