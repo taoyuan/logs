@@ -1,6 +1,7 @@
 import fs = require('fs');
 import {Logger} from "./logger";
 import {AdaptableLogger} from "./adaptable";
+import { isPlainObject } from "./utils";
 
 const LOGS_TAG = '__logs_library__';
 
@@ -63,9 +64,9 @@ export class Library {
   get(name: string, color?: string | LoggingOptions, categories?: string[] | LoggingOptions, options?: LoggingOptions): Logger {
     name = name || '[NONAME]';
 
-    if (color && typeof color === 'object') {
-      options = color;
-    } else if (categories && typeof categories === 'object') {
+    if (color && isPlainObject(color)) {
+      options = <object>color;
+    } else if (categories && isPlainObject(categories)) {
       options = categories;
       categories = undefined;
     }
