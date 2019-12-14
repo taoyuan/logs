@@ -28,7 +28,10 @@ export function initialize(library: Library, settings: LoggerOptions) {
     },
     getLogger: function(name: string, options: LoggingOptions) {
       if (options.parent) {
-        return (<Logger>options.parent).child({ name, level: settings.level });
+        return (<Logger>options.parent).child({
+          name,
+          ...options
+        });
       }
       return pino({ ...settings, name, ...options });
     }
