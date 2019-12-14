@@ -1,9 +1,8 @@
-import _ = require("lodash");
 import { Library, LoggingOptions } from "../logs";
 import { Logger, LoggerOptions } from "pino";
 import * as assert from "assert";
 
-export function initialize(library: Library, settings: LoggerOptions) {
+export function initialize(library: Library, opts: LoggerOptions) {
 
   const pino = require("pino");
 
@@ -15,11 +14,9 @@ export function initialize(library: Library, settings: LoggerOptions) {
       translateTime: "SYS:standard"
     };
   } catch (e) {
-
   }
 
-  settings = _.cloneDeep(_.merge(defaults, settings));
-  settings.level = settings.level || "info";
+  const settings = {level: 'info', ...defaults, ...opts};
 
   library.provider = {
     setLevel: function(level) {
@@ -30,7 +27,7 @@ export function initialize(library: Library, settings: LoggerOptions) {
       if (options.parent) {
         return (<Logger>options.parent).child({
           name,
-          ...options
+          level: options.level || settings.level
         });
       }
       return pino({ ...settings, name, ...options });
