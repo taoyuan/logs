@@ -16,7 +16,7 @@ export function initialize(library: Library, opts: LoggerOptions) {
   } catch (e) {
   }
 
-  const settings = {level: 'info', ...defaults, ...opts};
+  const settings = { level: "info", ...defaults, ...opts };
 
   library.provider = {
     setLevel: function(level) {
@@ -24,13 +24,11 @@ export function initialize(library: Library, opts: LoggerOptions) {
       settings.level = level;
     },
     getLogger: function(name: string, options: LoggingOptions) {
+      const level = options.level || options.parent?.level || settings.level;
       if (options.parent) {
-        return (<Logger>options.parent).child({
-          name,
-          level: options.level || settings.level
-        });
+        return (<Logger>options.parent).child({ name, level });
       }
-      return pino({ ...settings, name, ...options });
+      return pino({ ...settings, name, ...options, level });
     }
   };
 }
